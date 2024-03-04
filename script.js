@@ -4,6 +4,7 @@ const message = document.getElementById('caption');
 const url = document.getElementById('url');
 let pageIdDom = document.getElementById('fbPageId');
 let accessTokenDom = document.getElementById('accessToken');
+const fbPost = document.getElementById('fbpost');
 let pageId = '';
 let accessToken = '';
 
@@ -30,7 +31,7 @@ const addPost = () => {
 
 const getSpecificPost = async () => {
     const response = await axios.get("https://graph.facebook.com/" + postId.value + "?access_token=" + accessToken)
-    console.log(response.data);
+    console.log('get specific post: ', response.data);
 }
 
 const deletPost = async () => {
@@ -39,6 +40,19 @@ const deletPost = async () => {
 }
 
 const seePosts = async () => {
-    const response = await axios.get("https://graph.facebook.com/" + pageId + "/feed?access_token=" + accessToken)
-    console.log(response.data);
+    fbPost.innerHTML = '';
+    const response = await axios.get("https://graph.facebook.com/" + pageId + "/feed?access_token=" + accessToken);
+    let postData = response.data.data;
+
+    const headers = Object.keys(postData[0]);
+    postData.forEach(item => {
+        const row = document.createElement('tr');
+        headers.forEach(header => {
+            const td = document.createElement('td');
+            td.textContent = item[header];
+            row.appendChild(td);
+        });
+        fbPost.appendChild(row);
+    });
+    console.log(postData);
 }

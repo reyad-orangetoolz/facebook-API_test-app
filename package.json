@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "snowpack dev --port 5001",
+        "start": "snowpack dev --port 4321",
         "build": "snowpack build"
     },
     "dependencies": {
